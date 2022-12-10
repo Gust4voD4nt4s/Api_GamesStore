@@ -6,17 +6,17 @@ const save = async (req, res, next) => {
         const newVideoGame = new VideoGame(data)
         const savedVideoGame = await newVideoGame.save()
         if (!savedVideoGame) {
-            throw new Error('')
+            throw new Error('Video game cold not be saved')
         }
         res.status(201).json({
-            message: ''
+            message: 'New video game created'
         })
     } catch (err) {
         next(err)
     }
 }
 
-const getAll = async (res, next) => {
+const getAll = async (req, res, next) => {
     try {
         const videoGames = await VideoGame.find()
         res.status(200).json(videoGames)
@@ -30,7 +30,7 @@ const getById = async (req, res, next) => {
         const id = req.params.id
         const videoGame = await VideoGame.findById(id)
         if (!videoGame) {
-            throw new Error('')
+            throw new Error(`Video game with id ${id} not found`)
         } 
         res.status(200).json(videoGame)
     } catch (err) {
@@ -38,13 +38,13 @@ const getById = async (req, res, next) => {
     }
 }
 
-const update = async () => {
+const update = async (req, res, next) => {
     try {
         const data = req.body
         const id = req.params.id
         const videoGame = await VideoGame.findById(id)
         if(!videoGame) {
-            throw new Error('')
+            throw new Error(`Video game with id ${id} not found`)
         }
         const newVideoGame = await VideoGame.findByIdAndUpdate(id, data, {new: true})
         res.status(200).json(newVideoGame)
@@ -53,13 +53,20 @@ const update = async () => {
     }
 }
 
-const remove = async () => {
-    const id = req.params.id
-    const videoGame = await VideoGame.findById(id)
-    if(!videoGame) {
-        throw new Error('')
+const remove = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const videoGame = await VideoGame.findById(id)
+        if(!videoGame) {
+            throw new Error(`Video game with id ${id} not found`)
+        }
+        await VideoGame.findByIdAndDelete(id)
+        res.status(200).json({
+            message: `Video game with id ${id} has deleted`
+        })
+    } catch (err) {
+        next(err)
     }
-    await VideoGame.findByIdAndDelete(id)
 }
 
 module.exports = {
