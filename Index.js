@@ -4,6 +4,7 @@ const app = express()
 const db = require('./src/utils/db')
 const videoGameRouter = require('./src/routes/videoGame.route')
 const gameRouter = require('./src/routes/game.route')
+const userRoute = require('./src/routes/user.route')
 const port = 3000
 
 app.use(bodyParser.json())
@@ -14,6 +15,7 @@ app.get("/", (res) => {
 
 app.use('/api/v1/videoGame', videoGameRouter)
 app.use('/api/v1/game', gameRouter)
+app.use('/api/v1/user', userRoute)
 
 app.use((error, res) => {
     console.log('Error', error)
