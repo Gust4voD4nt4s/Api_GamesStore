@@ -1,14 +1,15 @@
 const router = require('express').Router()
 const controller = require('../controllers/game.controller')
+const authz = require('../middlewares/authz.middleware')
 
-router.post('/', controller.save)
+router.post('/', authz, controller.save)
 
-router.get('/', controller.getAll)
+router.get('/', authz, controller.getAll)
 
-router.get('/:id', controller.getById)
+router.get('/:id', authz, controller.getById)
 
-router.put('/:id', controller.update)
+router.put('/:id', authz, controller.update)
 
-router.delete('/:id', controller.remove)
+router.delete('/:id', authz, controller.remove)
 
 module.exports = router

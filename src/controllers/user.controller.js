@@ -1,5 +1,7 @@
 const User = require('../models/User.model')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const constants = require('../utils/constants')
 
 const save = async (req, res, next) => {
     try {
@@ -78,10 +80,37 @@ const remove = async (req, res, next) => {
     }
 }
 
+const authenticate = async (req, res, next) => {
+    try {
+        const {username, password} = req.body
+        if (!(username && password)) {
+            throw new Error('Username and password are required')
+        }
+
+        const user = await User.findOne({username: username,})
+        if (user && (await bcrypt.compare(password, user.password))) {
+            const token = jwt.sign({
+                sub: user._id,
+                iss: 'api_gamestores',
+                username: user.username,
+                name: user.name
+            }, "123456", {
+                expiresIn: '1h'
+            })
+            res.status(200).json(token)
+        } else {
+            throw new Error('Username and password invalid')
+        }
+    } catch (err) {
+        next(err)
+    } 
+}
+
 module.exports = {
     save,
     getAll,
     getById,
     update,
-    remove
+    remove,
+    authenticate
 }
