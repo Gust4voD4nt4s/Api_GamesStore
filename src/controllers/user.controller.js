@@ -1,8 +1,11 @@
 const User = require('../models/User.model')
+const bcrypt = require('bcrypt')
 
 const save = async (req, res, next) => {
     try {
         const data = req.body
+        const hash = await bcrypt.hash(data.password, 10)
+        data.password = hash
         const newUser = new User(data)
         const savedUser = await newUser.save()
         if (!savedUser) {
@@ -19,6 +22,9 @@ const save = async (req, res, next) => {
 const getAll = async (req, res, next) => {
     try {
         const users = await User.find()
+        for(let user of users){
+            user.password = undefined
+        }
         res.status(200).json(users)
     } catch (err) {
         next(err)
@@ -32,6 +38,7 @@ const getById = async (req, res, next) => {
         if (!user) {
             throw new Error(`User with id ${id} not found`)
         } 
+        user.password = undefined
         res.status(200).json(User)
     } catch (err) {
         next(err)
@@ -46,7 +53,9 @@ const update = async (req, res, next) => {
         if(!user) {
             throw new Error(`User with id ${id} not found`)
         }
+        data.password = user.password
         const newUser = await User.findByIdAndUpdate(id, data, {new: true})
+        newUser.password = undefined
         res.status(200).json(newUser)
     } catch (err) {
         next(err)
