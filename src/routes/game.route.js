@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const controller = require('../controllers/game.controllers')
+const controller = require('../controllers/game.controller')
 
 router.post('/', controller.save)
 
