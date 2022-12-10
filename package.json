@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Gust4voD4nt4s/Api_GamesStore#readme",
   "dependencies": {
     "body-parser": "^1.20.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
   }
 }
