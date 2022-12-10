@@ -27,4 +27,4 @@ const videoGameSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Video Game', videoGameSchema)
+module.exports = mongoose.model('VideoGame', videoGameSchema)
