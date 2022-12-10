@@ -6,7 +6,7 @@ const port = 3000
 app.use(bodyParser.json())
 
 app.get("/", (res) => {
-    res.send('apiGameStores is running')
+    res.send('api_game_store is running')
 })
 
 app.use((error, res) => {
@@ -15,5 +15,5 @@ app.use((error, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`apiGameStores running on port ${port}`)
+    console.log(`api_game_store running on port ${port}`)
 })
