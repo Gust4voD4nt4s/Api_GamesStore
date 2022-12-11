@@ -1,6 +1,7 @@
 const User = require('../models/User.model')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { security } = require('../utils/constants')
 
 const save = async (req, res, next) => {
     try {
@@ -90,11 +91,11 @@ const authenticate = async (req, res, next) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             const token = jwt.sign({
                 sub: user._id,
-                iss: 'api_gamestores',
+                iss: security.iss,
                 username: user.username,
                 name: user.name
-            }, "123456", {
-                expiresIn: '1h'
+            }, security.secret, {
+                expiresIn: security.expires
             })
             res.status(200).json(token)
         } else {
