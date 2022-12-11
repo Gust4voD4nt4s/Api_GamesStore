@@ -2,7 +2,7 @@ const router = require('express').Router()
 const controller = require('../controllers/user.controller')
 const authz = require('../middlewares/authz.middleware')
 
-router.post('/', authz, controller.save)
+router.post('/', controller.save)
 
 router.get('/', authz, controller.getAll)
 
