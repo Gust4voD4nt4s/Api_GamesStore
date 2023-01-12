@@ -1,5 +1,5 @@
 # Api game store
-## In this project, an api was created with 3 crud, with encryption and user authentication with the APIREST model
+## In this project an api was created with 3 crud, with encryption and user authentication using the rest pattern
 ## Programmers
 ### Name: Gustavo Henrique Dantas Santos
 ### Name: Larissa Candida Dos Santos
